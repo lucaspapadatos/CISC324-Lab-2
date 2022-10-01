@@ -1,2 +1,2 @@
-# CISC324-LAB2
+# CISC324-Lab-2
 # 
