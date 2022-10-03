@@ -1,4 +1,4 @@
-import java.text.BreakIterator;
+import java.util.concurrent.TimeUnit;
 
 //The content of this file defines a Java class named 'ThreadBot' 
 //This class inherits from the predefined Java class Thread.
@@ -18,7 +18,8 @@ public class ThreadBots extends Thread
 		//Here we retrieve the value of the character passed by the main class
 		init_char = c;
 	}
-	
+
+	//Returns the hashcode of the concatenated string
 	public static int passToHash(String s) {
 		String challenge = ThreadAttacker.challenge;
 		String tempx = s + challenge; // add challenge string to password attempt
@@ -26,29 +27,23 @@ public class ThreadBots extends Thread
 		return r_;
 	}
 
-	public static void compareHash(int r_) {
-		//Returns true if both hash values are the same
-		int r = ThreadAttacker.captured;
-		if (r == r_) {
-			ThreadAttacker.found = true;
-		}
-		else {
-			ThreadAttacker.found = false;
-		}
-	}
-
-	public static void crack(StringBuilder sb, int n) {
+	//Compares the hash and recursively 
+	public void crack(StringBuilder sb, int n) {
 		if (ThreadAttacker.found) return;
 		if (n == sb.length()) {
 			int r = passToHash(sb.toString());
-			compareHash(r);
+			if (r == ThreadAttacker.captured) {
+				System.out.println("Thread ["+init_char+"] cracked the password!");
+				System.out.println("The password is "+sb.toString());
+				ThreadAttacker.found = true;
+				long duration = System.currentTimeMillis() - ThreadAttacker.START_TIME;
+				System.out.println("Password cracked in " + TimeUnit.MILLISECONDS.toSeconds(duration) + "." + duration);
+			}
 			return;
 		}
 		for (int i = 0; i < ThreadAttacker.alphabet.length; i++) {
 			char letter = ThreadAttacker.alphabet[i];
 			sb.setCharAt(n, letter);
-			System.out.println(sb);
-			ThreadAttacker.attempts++;
 			crack(sb, n + 1);
 		}
 	}
@@ -57,10 +52,8 @@ public class ThreadBots extends Thread
 	{
 		System.out.println("Thread ["+init_char+"] initiating...");
 		StringBuilder pass = new StringBuilder(init_char+"");
-		System.out.println(pass);
 		pass.setLength(5);
 		crack(pass, 1);
-		System.out.println(ThreadAttacker.attempts);
 	}
 
 }

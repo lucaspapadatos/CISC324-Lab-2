@@ -14,8 +14,7 @@ public class ThreadAttacker {
 	public static boolean found = false;
 	//This is the variable that holds all letters of the alphabet for comparison
 	public static char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-	//This is the number of attempts one thread has made to compare has
-	public static int attempts = 0;
+	public static long START_TIME = System.currentTimeMillis();
 	//The main method, here starts the execution	
 	public static void main(String[] args) 
 	{
@@ -24,13 +23,13 @@ public class ThreadAttacker {
 		//Here we create the response by computing the hash of the previously computed string object
 		captured = tempx.hashCode();
 		
-		//Thread creation and instanciation (three threads are created)
+		//Thread creation and instantiation (three threads are created)
 		ThreadBots t_1 = new ThreadBots(1,'i');
 		ThreadBots t_2 = new ThreadBots(2, 't');
 		ThreadBots t_3 = new ThreadBots(3, 'v');
-		//Thread trigging (starting the threads)
-		//t_1.start();
-		//t_2.start();
+		//Thread triggering (starting the threads)
+		t_1.start();
+		t_2.start();
 		t_3.start();
 	}
 
