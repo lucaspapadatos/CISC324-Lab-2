@@ -1,8 +1,8 @@
-//The content of this file defines a Java main class named 'ThreadAttacker' 
+//The content of this file defines a Java main class named 'SingleAttacker' 
 //This class contains the main method from where the whole program (project) 
 //starts its execution
 
-public class ThreadAttacker {
+public class SingleAttacker {
 	//This is the challenge value, you can modify the value if you want
 	public static String challenge = "challenge_sequence";
 	//This is the password. It is here to help us compute the correct response that corresponds to the challenge
@@ -18,21 +18,24 @@ public class ThreadAttacker {
 	public static long START_TIME = System.currentTimeMillis();
 
 	//The main method, here starts the execution	
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
 		//tempx is a temporary string variable that we are using to create the concatenation of the password with the challenge 
 		String tempx = password + challenge;
 		//Here we create the response by computing the hash of the previously computed string object
 		captured = tempx.hashCode();
-		
+
 		//Thread creation and instantiation (three threads are created)
-		ThreadBots t_1 = new ThreadBots(1,'i');
-		ThreadBots t_2 = new ThreadBots(2, 't');
-		ThreadBots t_3 = new ThreadBots(3, 'v');
 		//Thread triggering (starting the threads)
+		SingleBots t_1 = new SingleBots(1, 'i');
 		t_1.start();
+		t_1.join();
+		SingleBots t_2 = new SingleBots(2, 't');
 		t_2.start();
-		t_3.start();		
+		t_2.join();
+		SingleBots t_3 = new SingleBots(3, 'v');
+		t_3.start();
+		t_3.join();
 	}
 
 }
